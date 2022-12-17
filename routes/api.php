@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ResetPasswordController;
 use App\Http\Controllers\Api\ViaCepController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,5 +23,6 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::post('register', [AuthController::class, 'register']);
-
 Route::post('login', AuthController::class);
+Route::post('forgot-password', [ResetPasswordController::class, "forgotPassword"]);
+Route::post('reset-password', [ResetPasswordController::class, "resetPassword"]);
