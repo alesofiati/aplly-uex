@@ -3,7 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Notifications\ResetPasswordNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -41,4 +44,32 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        User::creating(function($model){
+            $model->password = bcrypt($model->password);
+        });
+    }
+
+    /**
+     * Envia uma notificação por email para o usuario com link para recuperar a senha
+     *
+     * @param string $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token): void
+    {
+        $url = "https://meusite.com.br/reset-password?token={$token}";
+        $this->notify(new ResetPasswordNotification($url));
+    }
+
+    //realções
+
+    public function contacts(): HasMany
+    {
+        return $this->hasMany(UserContact::class);
+    }
 }
