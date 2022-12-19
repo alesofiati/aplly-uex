@@ -24,14 +24,16 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix("user")->group(function(){
         Route::delete("delete", [UserController::class, "destroy"]);
-        Route::get("contatos", [UserController::class, "index"]);
-        Route::post("contato/create", [UserController::class, "contatoStore"]);
-        Route::post("contato/{contatoId}", [UserController::class, "contatoUpdate"]);
-        Route::delete("contato/{contatoId}", [UserController::class, "contatoDestroy"]);
+        Route::group(["as" => "contact."], function(){
+            Route::get("contatos", [UserController::class, "index"])->name("index");
+            Route::post("contato/create", [UserController::class, "contatoStore"])->name("store");
+            Route::post("contato/{contatoId}", [UserController::class, "contatoUpdate"])->name("update");
+            Route::delete("contato/{contatoId}", [UserController::class, "contatoDestroy"])->name("delete");
+        });
     });
 });
 
-Route::post('register', [AuthController::class, 'register']);
-Route::post('login', AuthController::class);
+Route::post('register', [AuthController::class, 'register'])->name("user.register");
+Route::post('login', AuthController::class)->name("login")->name("login");
 Route::post('forgot-password', [ResetPasswordController::class, "forgotPassword"]);
 Route::post('reset-password', [ResetPasswordController::class, "resetPassword"]);
