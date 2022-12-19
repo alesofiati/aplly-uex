@@ -27,7 +27,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::group(["as" => "contact."], function(){
             Route::get("contatos", [UserController::class, "index"])->name("index");
             Route::post("contato/create", [UserController::class, "contatoStore"])->name("store");
-            Route::post("contato/{contatoId}", [UserController::class, "contatoUpdate"])->name("update");
+            Route::put("contato/{contatoId}", [UserController::class, "contatoUpdate"])->name("update");
             Route::delete("contato/{contatoId}", [UserController::class, "contatoDestroy"])->name("delete");
         });
     });
