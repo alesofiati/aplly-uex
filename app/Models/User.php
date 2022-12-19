@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Notifications\ResetPasswordNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -63,5 +64,12 @@ class User extends Authenticatable
     {
         $url = "https://meusite.com.br/reset-password?token={$token}";
         $this->notify(new ResetPasswordNotification($url));
+    }
+
+    //realções
+
+    public function contacts(): HasMany
+    {
+        return $this->hasMany(UserContact::class);
     }
 }

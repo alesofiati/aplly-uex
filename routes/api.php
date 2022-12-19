@@ -24,6 +24,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix("user")->group(function(){
         Route::delete("delete", [UserController::class, "destroy"]);
+        Route::get("contatos", [UserController::class, "index"]);
+        Route::post("contato/create", [UserController::class, "contatoStore"]);
+        Route::post("contato/{contatoId}", [UserController::class, "contatoUpdate"]);
+        Route::delete("contato/{contatoId}", [UserController::class, "contatoDestroy"]);
     });
 });
 
