@@ -46,7 +46,7 @@ class UserController extends Controller
             $contatos->paginate($perPage), 200);
     }
     
-    public function contatoStore(UserContatctRequest $request, ContatoService $contatoService): JsonResponse
+    public function contatoStore(UserContatctRequest $request): JsonResponse
     {
 
         $requestValidated = $request->validated();
