@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ResetPasswordController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ViaCepController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('endereco/{cep}/cep', ViaCepController::class)
         ->name('endereco.cep')->where('cep', '[0-9]+');
+
+    Route::prefix("user")->group(function(){
+        Route::delete("delete", [UserController::class, "destroy"]);
+        Route::get("contatos", [UserController::class, "index"]);
+        Route::post("contato/create", [UserController::class, "contatoStore"]);
+        Route::post("contato/{contatoId}", [UserController::class, "contatoUpdate"]);
+        Route::delete("contato/{contatoId}", [UserController::class, "contatoDestroy"]);
+    });
 });
 
 Route::post('register', [AuthController::class, 'register']);
